@@ -61,7 +61,7 @@ c.size()
 A.extend(c, { f: 123, g: 234 })
 console.log(c)
 
-A.extend(A.fn, {
+A.fn.extend({
     on: (function(){
         if(document.addEventListener) {
             return function(type, fn){
@@ -89,4 +89,98 @@ A.extend(A.fn, {
 
 c.on('click', function(){
     console.log(this.innerHTML)
+})
+
+A.extend({
+    cameName: function(str){
+        return str.replace(/\-(\w)/g, function(all, letter){
+            return letter.toUpperCase()
+        })
+    }
+})
+
+A.fn.extend({
+    css: function(...args){
+        if(args.length < 1) {
+            return
+        }
+        if(args.length === 1) {
+            const name = args[0]
+            if(typeof args[0] === 'string') {
+                if(this[0].currentStyle){
+                    return this[0].currentStyle[name]
+                } else {
+                    return getComputedStyle(this[0], false)[name]
+                }
+            }else if(typeof args[0] === 'object') {
+                for(let i = 0; i < this.length; i++) {
+                    for(let key in args[0]) {
+                        this[i].style[A.cameName(key)] = args[0][key]
+                    }
+                }
+            }
+        } else {
+            const name = args[0]
+            for(let i = 0; i < this.length; i++) {
+                this[i].style[A.cameName(name)] = args[1]
+            }
+        }
+        return this
+    }
+})
+
+c.css('color', '#f00').css({
+    border: '1px solid #fff',
+    'border-color': '#f0f'
+})
+
+A.fn.extend({
+    attr: function(...args){
+        if(args.length < 1) {
+            return
+        }
+        if(args.length === 1) {
+            if(typeof args[0] === 'string') {
+                return this[0].getAttribute(args[0])
+            } else {
+                for(let i = 0; i < this.length; i++) {
+                    for(let key in args[0]) {
+                        this[i].setAttribute(key, args[0][key])
+                    }
+                }
+            }
+        } else {
+            for(let i = 0; i < this.length; i++) {
+                this[i].setAttribute(args[0], args[1])
+            }
+        }
+        return this
+    }
+})
+
+c.attr({
+    name: 'asd',
+    data: '123'
+}).attr('class', 'qwer')
+
+A.fn.extend({
+    html: function(...args){
+        console.log(args)
+        if(args.length) {
+            for(let i = 0; i < this.length; i++) {
+                this[i].innerHTML = args[0]
+            }
+            
+            return this
+        } else {
+            return this[0].innerHTML
+        }
+    }
+})
+
+console.log(c.html())
+c.html('我是大魔王')
+
+c.css('background-color', '#0f0').html('我是链式调用').attr('data-tag', 'div').on('click', function(){
+    alert(this.innerHTML)
 })
