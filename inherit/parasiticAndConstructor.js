@@ -29,6 +29,7 @@ SuperClass.prototype.showName = function(){
     console.log(this.name)
 }
 
+
 inheritPrototype(SubClass, SuperClass)
 
 let a = new SubClass('张飒')
