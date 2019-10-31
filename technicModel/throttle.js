@@ -24,13 +24,21 @@ LazyLoad.prototype = {
     },
     update: function(){
         console.log('寄哪里啊了')
-        for(let i = 0; i < this.imgs.length; i++) {
+        for(let i = this.imgs.length - 1; i >= 0; i--) {
             if(this.shouldShow(i)){
                 console.log(this.imgs[i])
                 this.imgs[i].src = this.imgs[i].getAttribute('data-src')
                 this.imgs.splice(i,1)
             }
         }
+        // for(let i = 0; i < this.imgs.length; i++) {
+        //     if(this.shouldShow(i)){
+        //         console.log(this.imgs[i])
+        //         this.imgs[i].src = this.imgs[i].getAttribute('data-src')
+        //         this.imgs.splice(i,1)
+        //         i--
+        //     }
+        // }
     },
     bindEvent: function(){
         let that = this
@@ -47,13 +55,15 @@ LazyLoad.prototype = {
         let clientBottom = clientTop + document.documentElement.clientHeight // documentElement获取窗口高度的值更准确
         let eleTop = this.pageY(element)
         let eleBottom = eleTop + element.clientHeight
-        console.log( eleTop, clientBottom, clientTop, (clientBottom > eleBottom && eleBottom > clientTop), (clientBottom > eleTop && eleTop > clientTop))
+        console.log( eleTop, eleBottom, clientBottom, clientTop, (clientBottom > eleBottom && eleBottom > clientTop), (clientBottom > eleTop && eleTop > clientTop))
         if((clientBottom > eleBottom && eleBottom > clientTop) || (clientBottom > eleTop && eleTop > clientTop)) {
             return true
         }
+        return false
     },
     pageY: function(element){
         if(element.offsetParent) {
+            console.log(element.offsetTop, this.pageY(element.offsetParent)  )
             return element.offsetTop + this.pageY(element.offsetParent)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
         } else {
             return element.offsetTop
