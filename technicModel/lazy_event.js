@@ -28,6 +28,7 @@ var on = function(ele, type, fn){
             ele['on' + type] = fn
         }
     }
+    console.log('我被执行了')
     on(ele, type, fn)
 }
 
@@ -47,3 +48,7 @@ console.log(on)
 // ƒ (ele, type, fn){
 //     ele.addEventListener(type, fn, false)
 // }
+
+on(document.getElementById('app'), 'click', function(){
+    console.log('我被点击了')
+})
