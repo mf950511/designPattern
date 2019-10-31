@@ -24,9 +24,13 @@ LazyLoad.prototype = {
     },
     update: function(){
         console.log('寄哪里啊了')
-        this.imgs.forEach(item => {
-            this.shouldShow(item)
-        })
+        for(let i = 0; i < this.imgs.length; i++) {
+            if(this.shouldShow(i)){
+                console.log(this.imgs[i])
+                this.imgs[i].src = this.imgs[i].getAttribute('data-src')
+                this.imgs.splice(i,1)
+            }
+        }
     },
     bindEvent: function(){
         let that = this
@@ -37,15 +41,15 @@ LazyLoad.prototype = {
         let imgs = document.getElementsByTagName('img')
         return Array.prototype.slice.call(imgs)
     },
-    shouldShow: function(element){
+    shouldShow: function(i){
+        let element = this.imgs[i]
         let clientTop = document.body.scrollTop + document.documentElement.scrollTop // 各浏览器下表现不一致，但只会有一个生效，所以可以直接相加获取
         let clientBottom = clientTop + document.documentElement.clientHeight // documentElement获取窗口高度的值更准确
         let eleTop = this.pageY(element)
         let eleBottom = eleTop + element.clientHeight
-        console.log( eleBottom, clientBottom, clientTop, clientBottom > eleBottom > clientTop, clientBottom > eleTop > clientTop)
-        if((clientBottom > eleBottom > clientTop) || (clientBottom > eleTop > clientTop)) {
-            console.log('我满足条件')
-            element.src = element.getAttribute('data-src')
+        console.log( eleTop, clientBottom, clientTop, (clientBottom > eleBottom && eleBottom > clientTop), (clientBottom > eleTop && eleTop > clientTop))
+        if((clientBottom > eleBottom && eleBottom > clientTop) || (clientBottom > eleTop && eleTop > clientTop)) {
+            return true
         }
     },
     pageY: function(element){
