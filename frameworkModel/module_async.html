@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>异步模块</title>
+</head>
+<body>
+    <div id="demo">123</div>
+<script src="./module_async.js"></script>
+<script>
+F.module(['lib/event', 'lib/dom'], function(events, dom){
+    console.log(123, events, dom)
+    events.on('demo', 'click', function(){
+        dom.html('demo', 'success')
+    })
+})
+</script>
+</body>
+</html>
