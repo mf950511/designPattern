@@ -2,6 +2,7 @@ function Node(data){
   this.data = data
   this.left = null
   this.right = null
+  this.count = 1
 }
 
 
@@ -36,6 +37,10 @@ BinaryTree.prototype = {
           continue
         }
         
+      }
+      if(current.data === data) {
+        this.update(data)
+        break
       }
     }
   },
@@ -72,6 +77,10 @@ BinaryTree.prototype = {
   },
   remove: function(data){
     removeKey(data, this.root)
+  },
+  update: function(data){
+    let node = this.find(data)
+    node.count++
   }
 }
 
@@ -150,13 +159,17 @@ b.insert(5)
 b.insert(8)
 b.insert(13)
 b.insert(25)
+b.insert(25)
+b.insert(25)
+b.insert(25)
 b.cenOrder()
 
 b.preOrder()
 b.postOrder()
 
-console.log(b.find(12))
+console.log(b.find(25))
 
 b.remove(7)
 b.remove(24)
+b.remove(25)
 b.postOrder()
