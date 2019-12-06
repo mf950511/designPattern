@@ -63,12 +63,7 @@ BinaryTree.prototype = {
     }
     return null
   },
-  getMax: function(node){
-    while(node.right !== null) {
-      node = node.right
-    }
-    return node
-  },
+  getMax: getMax,
   getMin: function(node){
     while(node.left !== null) {
       node = node.left
@@ -76,8 +71,45 @@ BinaryTree.prototype = {
     return node
   },
   remove: function(data){
-    
+    removeKey(data, this.root)
   }
+}
+
+function getMax(node){
+  while(node.right !== null) {
+    node = node.right
+  }
+  return node
+}
+
+function removeKey(data, node) {
+  if(node === null) {
+    return 
+  }
+  if(data < node.data) {
+    node.left = removeKey(data, node.left)
+    return node
+  } else if(data > node.data) {
+    node.right = removeKey(data, node.right)
+    return node
+  } else {
+    if(node.left === null && node.right === null) {
+      node = null
+      return node
+    } else if(node.left === null) {
+      node = node.right
+      return node
+    } else if(node.right === null) {
+      node = node.left
+      return node
+    } else {
+      let newNode = getMax(node.left)
+      node.data = newNode.data
+      removeKey(node.data, node.left)
+      return node
+    }
+  }
+
 }
 
 function cenOrder(node){
@@ -117,6 +149,7 @@ b.insert(3)
 b.insert(5)
 b.insert(8)
 b.insert(13)
+b.insert(25)
 b.cenOrder()
 
 b.preOrder()
@@ -124,3 +157,6 @@ b.postOrder()
 
 console.log(b.find(12))
 
+b.remove(7)
+b.remove(24)
+b.postOrder()
