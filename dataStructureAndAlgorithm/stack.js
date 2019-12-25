@@ -34,4 +34,5 @@ function toFixed(number, fix) {
 }
 
 
+
 console.log(toFixed(10, 2))
