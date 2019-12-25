@@ -1,3 +1,4 @@
+// 动态规划获取斐波那契数列指定下标的值
 function recurFib(n){
   if(n < 2) {
     return n
