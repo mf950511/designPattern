@@ -8,7 +8,7 @@ function getMinNumber(number, money){
     return -1
   }
   let arr = []
-  for(let i = 1; i <= number; i++) {
+  for(let i = 0; i <= number; i++) {
     arr[i] = -1
   }
   for(let i = 0; i < money.length; i++) {
@@ -20,11 +20,12 @@ function getMinNumber(number, money){
     }
   }
   for(let i = 1; i <= number; i++) {
-    for(let j = 0;j < money.length; j++) {
-      if(i - money[j] >= 0 && arr[i - money[j]] !== -1 ) {
-        if(arr[i] === -1 || arr[i] > arr[i - money[j]] + 1) {
+    for(let j = 0; j < money.length; j++){
+      if(i - money[j] >= 0 && arr[i - money[j]] !== -1) {
+        if(arr[i] > arr[i - money[j]] + 1 || arr[i] === -1) {
           arr[i] = arr[i - money[j]] + 1
         }
+        console.log(i, money[j], arr[i])
       }
     }
   }
